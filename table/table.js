@@ -16,16 +16,6 @@ var persons = [
                 }
             ]
 
-persons.sort(function(a, b){
-    if (a.name > b.name) {
-        return 1;
-    }
-
-    if (a.name < b.name) {
-        return -1;
-    }
-    return 0;
-});
 
 
  
@@ -42,7 +32,7 @@ function createTable(){
 
         var tr = document.createElement('tr');
 
-        tr.innerHTML = '<td>Имя</td><td>Возраст</td><td>Группа</td>';
+        tr.innerHTML = "<td col='name'>Имя</td><td col='age'>Возраст</td><td col='group'>Группа</td>";
 
         tbody.appendChild(tr);
     
@@ -75,6 +65,102 @@ function createTable(){
         table.appendChild(tbody);
 
         document.getElementById('persons-table').appendChild(table);
+        
+        var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+
+        for (var j = 0; j< tableItems.length; j++) {
+            wrapper(j);
+        }
 }
 createTable();
+
+var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+
+function wrapper(i){
+    var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+
+ // for (i = 0; i < tableItems.length; i++) {
+    var firstClick = function(e) {
+
+        console.log(i);
+        
+        function makeComparator(x){
+            var sortEl = function(a, b){
+                if (a[x] > b[x]) {
+                    return 1;
+                }
+
+                if (a[x] < b[x]) {
+                    return -1;
+                }
+                return 0;
+
+            }
+            
+            return sortEl;
+        }
+
+
+        persons.sort(makeComparator(e.target.getAttribute('col')));
+
+        document.querySelector('table').parentNode.removeChild(document.querySelector('table'));
+
+
+        createTable();
+
+        var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+
+
+        tableItems[i].onclick = secondClick;
+
+    }
+
+     var secondClick = function(e) {
+
+        console.log(i);
+
+        
+
+        function makeComparator(x){
+            var sortEl = function(a, b){
+                if (a[x] < b[x]) {
+                    return 1;
+                }
+
+                if (a[x] > b[x]) {
+                    return -1;
+                }
+                return 0;
+
+            }
+            
+            return sortEl;
+        }
+
+
+        persons.sort(makeComparator(e.target.getAttribute('col')));
+
+        document.querySelector('table').parentNode.removeChild(document.querySelector('table'));
+
+
+        createTable();
+
+        var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+
+
+        tableItems[i].onclick = firstClick;
+    }   
+
+    tableItems[i].onclick = firstClick;
+
+}
+
+var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+
+for (var j = 0; j< tableItems.length; j++) {
+    wrapper(j);
+}
+
+    
+//}
 
