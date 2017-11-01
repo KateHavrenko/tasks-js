@@ -16,8 +16,6 @@ var persons = [
                 }
             ]
 
-
-
  
 function createTable(){
         var table = document.createElement('table');
@@ -35,9 +33,7 @@ function createTable(){
         tr.innerHTML = "<td col='name'>Имя</td><td col='age'>Возраст</td><td col='group'>Группа</td>";
 
         tbody.appendChild(tr);
-    
-        
-
+           
         for(var i = 0; i < persons.length; i++){
 
             var tr = document.createElement('tr');
@@ -66,101 +62,83 @@ function createTable(){
 
         document.getElementById('persons-table').appendChild(table);
         
-        var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+        var tableHeader = document.querySelectorAll('table tbody tr:first-child td');
 
-        for (var j = 0; j< tableItems.length; j++) {
+        for (var j = 0; j< tableHeader.length; j++) {
             wrapper(j);
         }
 }
 createTable();
 
-var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+function makeComparator(x, isAscending){
+            
+    var sortEl = function(a, b){
+        if (isAscending == 'asc'){
+            if (a[x] > b[x]) {
+                return 1;
+            }
+
+            if (a[x] < b[x]) {
+                return -1;
+            }
+
+        } else{
+            if (a[x] < b[x]) {
+                return 1;
+            }
+
+            if (a[x] > b[x]) {
+                return -1;
+            }
+
+        }
+        return 0;
+    }
+    return sortEl;
+
+}
+
+var tableHeader = document.querySelectorAll('table tbody tr:first-child td');
 
 function wrapper(i){
-    var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+    var tableHeader = document.querySelectorAll('table tbody tr:first-child td');
 
- // for (i = 0; i < tableItems.length; i++) {
-    var firstClick = function(e) {
+    var firstClick = function(e) {       
 
-        console.log(i);
-        
-        function makeComparator(x){
-            var sortEl = function(a, b){
-                if (a[x] > b[x]) {
-                    return 1;
-                }
-
-                if (a[x] < b[x]) {
-                    return -1;
-                }
-                return 0;
-
-            }
-            
-            return sortEl;
-        }
-
-
-        persons.sort(makeComparator(e.target.getAttribute('col')));
+        persons.sort(makeComparator(e.target.getAttribute('col'), 'asc'));
 
         document.querySelector('table').parentNode.removeChild(document.querySelector('table'));
 
-
         createTable();
 
-        var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+        var tableHeader = document.querySelectorAll('table tbody tr:first-child td');
 
-
-        tableItems[i].onclick = secondClick;
+        tableHeader[i].onclick = secondClick;
 
     }
 
      var secondClick = function(e) {
 
-        console.log(i);
-
-        
-
-        function makeComparator(x){
-            var sortEl = function(a, b){
-                if (a[x] < b[x]) {
-                    return 1;
-                }
-
-                if (a[x] > b[x]) {
-                    return -1;
-                }
-                return 0;
-
-            }
-            
-            return sortEl;
-        }
-
-
-        persons.sort(makeComparator(e.target.getAttribute('col')));
+        persons.sort(makeComparator(e.target.getAttribute('col'), 'desc'));
 
         document.querySelector('table').parentNode.removeChild(document.querySelector('table'));
 
-
         createTable();
 
-        var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+        var tableHeader = document.querySelectorAll('table tbody tr:first-child td');
 
 
-        tableItems[i].onclick = firstClick;
+        tableHeader[i].onclick = firstClick;
     }   
 
-    tableItems[i].onclick = firstClick;
+    tableHeader[i].onclick = firstClick;
 
 }
 
-var tableItems = document.querySelectorAll('table tbody tr:first-child td');
+var tableHeader = document.querySelectorAll('table tbody tr:first-child td');
 
-for (var j = 0; j< tableItems.length; j++) {
+for (var j = 0; j< tableHeader.length; j++) {
     wrapper(j);
 }
 
-    
-//}
 
