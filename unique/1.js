@@ -1,7 +1,14 @@
 function count(a, x){
     c = 0;
     for (var i = 0; i < a.length; i++) {
-        if (a[i] == x){
+        if(typeof(a[i]) === 'object'){
+            JSON.stringify(a[i]);
+            console.log(JSON.stringify(a[i]));
+            if (JSON.stringify(a[i]) === JSON.stringify(x)) {
+                c++;
+                console.log(true);
+            }
+        } else if (a[i] == x){
             c++;
         }
     }
@@ -24,6 +31,9 @@ function unique(){
     var newarr = [];
     for (var j =0; j < arguments.length; j++) {
         for (var i =0; i < arguments[j].length; i++) {
+            // if (typeof(arguments[j][i]) === 'object'){
+
+           // }
             if(countAll(arguments, arguments[j][i]) == 1){
                 newarr.push(arguments[j][i]);
             }
@@ -36,7 +46,7 @@ function unique(){
     });;
 }
 
-console.log(unique([1,2,2,5,5,5,6,7,7,8,9,10,10], [1, 3, 4, 5, 6]));
+console.log(unique([1, {a: 1}], [1, 2, 3, {a: 2}]));
 
 // function squash(a, b){
 //     var newarr = [];
