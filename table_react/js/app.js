@@ -35,7 +35,8 @@ var TableRows = React.createClass({
 var Table = React.createClass({
 	getInitialState: function() {
 	    return {
-	      my_news: my_news,
+	      initial: this.props.my_news,
+	      current: this.props.my_news,
 	      sortColumn: '',
 	      direction: 'asc'
 	    };
@@ -58,13 +59,13 @@ var Table = React.createClass({
 	              (comparison * -1) : comparison
 	            );
 	    	}
-	    var data = this.state.my_news;
+	    var data = this.state.initial;
 	    data.sort(sortEl);
-	    this.setState({my_news: data, sortColumn: newField, direction: newOrder});
+	    this.setState({current: data, sortColumn: newField, direction: newOrder});
 	    
 	},
 	render: function(){
-		var data = this.state.my_news;
+		var data = this.state.current;
 		var tableTemplate;
 		var nameSortOrder = 'asc';
 		if (this.state.sortColumn == 'name' && this.state.direction == 'asc') {
@@ -93,12 +94,42 @@ var Table = React.createClass({
 	}
 })
 
+var FilteredList = React.createClass({
+  filterList: function(event){
+  	this.filterList2(event.target.value);
+  },
+  filterList2: function(valueInput){ 	
+    var updatedList = this.state.initial.filter(function(item){
+      return item.name.toLowerCase().search(
+        valueInput.toLowerCase()) !== -1;
+    });
+    console.log(updatedList);
+    this.setState({current: updatedList});
+  },
+  getInitialState: function(){
+     return {
+       initial: this.props.data
+     }
+  },
+  componentWillMount: function(){
+    this.filterList2('');
+  },
+  render: function(){
+    return (
+      <div className="filter-list">
+        <input type="text" placeholder="Search" onChange={this.filterList}/>
+      	 <Table my_news={this.state.current} />
+      	 {this.state.current.length}
+      </div>
+    );
+  }
+});
 
 var App = React.createClass({
   render: function() {
     return (
       <div className="app">
-        <Table data={my_news} />
+		<FilteredList data={my_news}/>
       </div>
     );
   }
