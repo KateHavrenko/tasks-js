@@ -59,13 +59,15 @@ var Table = React.createClass({
 	              (comparison * -1) : comparison
 	            );
 	    	}
-	    var data = this.state.initial;
+	    // var data = this.state.initial;
+	    var data = this.props.my_news;
 	    data.sort(sortEl);
 	    this.setState({current: data, sortColumn: newField, direction: newOrder});
 	    
 	},
 	render: function(){
-		var data = this.state.current;
+		//var data = this.state.current;
+		var data = this.props.my_news;
 		var tableTemplate;
 		var nameSortOrder = 'asc';
 		if (this.state.sortColumn == 'name' && this.state.direction == 'asc') {
@@ -95,16 +97,26 @@ var Table = React.createClass({
 })
 
 var FilteredList = React.createClass({
-  filterList: function(event){
-  	this.filterList2(event.target.value);
-  },
-  filterList2: function(valueInput){ 	
-    var updatedList = this.state.initial.filter(function(item){
+  // filterList: function(event){
+  // 	this.filterList2(event.target.value);
+  // },
+  // filterList2: function(valueInput){ 	
+  //   var updatedList = this.state.initial.filter(function(item){
+  //     return item.name.toLowerCase().search(
+  //       valueInput.toLowerCase()) !== -1;
+  //   });
+  //   console.log(updatedList);
+  //   this.setState({current: updatedList});
+  // },
+  filterList: function(event){ 	
+  	console.log(event);
+  	const filterCriteria = event ? event.target.value : '';
+    var updatedList = this.props.data.filter(function(item){
       return item.name.toLowerCase().search(
-        valueInput.toLowerCase()) !== -1;
+        filterCriteria.toLowerCase()) !== -1;
     });
     console.log(updatedList);
-    this.setState({current: updatedList});
+    this.setState({initial: updatedList});
   },
   getInitialState: function(){
      return {
@@ -112,14 +124,15 @@ var FilteredList = React.createClass({
      }
   },
   componentWillMount: function(){
-    this.filterList2('');
+   // this.filterList2('');
+    this.filterList();
   },
   render: function(){
     return (
       <div className="filter-list">
         <input type="text" placeholder="Search" onChange={this.filterList}/>
-      	 <Table my_news={this.state.current} />
-      	 {this.state.current.length}
+      	 <Table my_news={this.state.initial} />
+      	 {this.state.initial.length}
       </div>
     );
   }
