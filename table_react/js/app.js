@@ -16,21 +16,21 @@ var my_news = [
                 }
             ];
 
-
-var TableRows = React.createClass({
-  render: function() {
-  	var name = this.props.data.name,
+export class TableRows extends Component{
+   render() {
+    let name = this.props.data.name,
         age = this.props.data.age,
         group = this.props.data.group;
       return (
             <tr className="rows">
               <td className="row__name">{name}</td>
               <td className="row__age">{age}</td>
- 			  <td className="row__group">{group}</td>
- 			</tr>
+        <td className="row__group">{group}</td>
+      </tr>
       )
-    }
-});
+   }
+}
+
 
 var Table = React.createClass({
 	getInitialState: function() {
@@ -58,15 +58,13 @@ var Table = React.createClass({
 	              (newOrder == 'desc') ? 
 	              (comparison * -1) : comparison
 	            );
-	    	}
-	    // var data = this.state.initial;
+	    	};
 	    var data = this.props.my_news;
 	    data.sort(sortEl);
 	    this.setState({current: data, sortColumn: newField, direction: newOrder});
 	    
 	},
 	render: function(){
-		//var data = this.state.current;
 		var data = this.props.my_news;
 		var tableTemplate;
 		var nameSortOrder = 'asc';
@@ -97,17 +95,6 @@ var Table = React.createClass({
 })
 
 var FilteredList = React.createClass({
-  // filterList: function(event){
-  // 	this.filterList2(event.target.value);
-  // },
-  // filterList2: function(valueInput){ 	
-  //   var updatedList = this.state.initial.filter(function(item){
-  //     return item.name.toLowerCase().search(
-  //       valueInput.toLowerCase()) !== -1;
-  //   });
-  //   console.log(updatedList);
-  //   this.setState({current: updatedList});
-  // },
   filterList: function(event){ 	
   	console.log(event);
   	const filterCriteria = event ? event.target.value : '';
@@ -124,7 +111,7 @@ var FilteredList = React.createClass({
      }
   },
   componentWillMount: function(){
-   // this.filterList2('');
+
     this.filterList();
   },
   render: function(){
